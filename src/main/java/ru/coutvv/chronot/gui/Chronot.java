@@ -5,6 +5,7 @@ package ru.coutvv.chronot.gui;/**
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
@@ -33,5 +34,7 @@ public class Chronot extends Application {
         TimeUnit.SECONDS.sleep(2);
         primaryStage.setIconified(false);
         ChronotController.main = primaryStage;
+
+        primaryStage.getIcons().add(new Image("https://www.google.com/s2/favicons?domain=coutvv.ru"));
     }
 }
