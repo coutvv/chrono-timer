@@ -14,5 +14,5 @@ repositories {
 }
 
 dependencies {
-    compile "ru.coutvv:detime:1.1"
+    compile "ru.coutvv:detime:1.2"
 }

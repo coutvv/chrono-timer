@@ -10,7 +10,10 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.concurrent.TimeUnit;
 
 public class Chronot extends Application {
@@ -34,7 +37,10 @@ public class Chronot extends Application {
         TimeUnit.SECONDS.sleep(2);
         primaryStage.setIconified(false);
         ChronotController.main = primaryStage;
-
-        primaryStage.getIcons().add(new Image("https://www.google.com/s2/favicons?domain=coutvv.ru"));
+        ClassLoader classloader = Thread.currentThread().getContextClassLoader();
+        InputStream is = classloader.getResourceAsStream("icon.jpg");
+        Image icon = new Image(is);
+//        primaryStage.getIcons().add(new Image("https://www.google.com/s2/favicons?domain=coutvv.ru"));
+        primaryStage.getIcons().add(icon);
     }
 }

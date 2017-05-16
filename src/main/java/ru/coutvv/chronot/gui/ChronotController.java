@@ -16,9 +16,7 @@ import ru.coutvv.detime.util.DeTimer;
 
 import java.net.URL;
 import java.util.ResourceBundle;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.concurrent.TimeUnit;
+import java.util.concurrent.*;
 import java.util.function.Consumer;
 
 /**
@@ -57,7 +55,7 @@ public class ChronotController implements Initializable {
 //        if(main!=null) {
 //            main.setIconified(true);
 //        }
-        startTimer(25);
+        startTimer(20);
     }
 
     /**
@@ -75,8 +73,10 @@ public class ChronotController implements Initializable {
      * @throws InterruptedException
      */
     public void stop(ActionEvent actionEvent) throws InterruptedException {
-        executorService.shutdownNow();
+        timer.stop();
         time.setText("00:00:00");
+
+//        executorService.shutdownNow();
         startButton.setDisable(false);
         stopButton.setDisable(true);
         restButton.setDisable(false);
@@ -87,10 +87,15 @@ public class ChronotController implements Initializable {
         Platform.runLater(() -> {
             time.setText(detime.toString());
             double secs = detime.getSeconds() + detime.getMinute()*100 + detime.getHour()*10000;
-            System.out.println(secs + " " + target);
             progress.setProgress((target - secs)/target);
             if(time.getText().equals("00:00:00")) {
                 main.setIconified(false);
+                try {
+                    stop(null);
+//                    taskName.setEditable(true);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
             }
         });
 
@@ -104,15 +109,19 @@ public class ChronotController implements Initializable {
         });
     }
 
-
+    private DeTimer timer;
+    private Future res;
 
     private void startTimer(int min) {
         this.target = min * 100;
         createExecutor();
-        executorService.execute(new DeTimer(0, min, 0, updater));
+        timer = new DeTimer(0, min, 0, updater);
+//        executorService.execute(timer);
+        res = executorService.submit(timer);
         startButton.setDisable(true);
         stopButton.setDisable(false);
         restButton.setDisable(true);
+//        taskName.setEditable(false);
     }
 
 }
