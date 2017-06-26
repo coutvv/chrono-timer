@@ -16,3 +16,20 @@ repositories {
 dependencies {
     compile "ru.coutvv:detime:1.2"
 }
+
+//mainClassName = "ru.coutvv.chronot.gui.Chronot"
+
+jar {
+    manifest {
+        attributes "Main-Class" : "ru.coutvv.chronot.gui.Chronot"
+    }
+    from {
+        configurations.compile.collect { it.isDirectory() ? it : zipTree(it) }
+    }
+}
+
+//fatJar(type: Jar) {
+//    baseName = project.name + '-all'
+//    from { configurations.compile.collect { it.isDirectory() ? it : zipTree(it) } }
+//    with jar
+//}
